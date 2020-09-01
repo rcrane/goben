@@ -1,12 +1,20 @@
 #!/bin/sh
 
-gofmt -s -w ./goben
-go tool fix ./goben
-go vet ./goben
+gofmt -s -w ./src
+go vet ./src
+go test ./src
 
-#which gosimple >/dev/null && gosimple ./goben
-which golint >/dev/null && golint ./goben
-#which staticcheck >/dev/null && staticcheck ./goben
+echo "Building linux binary:\n"
+go build -a -v -gccgoflags="-static-libgo -static" -o goben-linux ./src
+file goben-linux
 
-go test ./goben
-CGO_ENABLED=0 go install -v ./goben
+echo "\n\nBuilding windows (amd64) binary:\n"
+GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -a -v -gccgoflags="-static-libgo -static" -o goben-amd64.exe ./src
+file goben-amd64.exe
+
+
+echo "Building windows (386) binary:"
+GOOS=windows GOARCH=386 CGO_ENABLED=0 go build -a -v -gccgoflags="-static-libgo -static" -o goben-386.exe ./src
+file goben-386.exe
+
+

@@ -1,21 +1,15 @@
-[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/udhos/goben/blob/master/LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/udhos/goben)](https://goreportcard.com/report/github.com/udhos/goben)
-[![GolangCI](https://golangci.com/badges/github.com/udhos/goben.svg)](https://golangci.com/r/github.com/udhos/goben)
-
 # goben
 
 goben is a golang tool to measure TCP/UDP transport layer throughput between hosts.
 
-* [Features](#features)
-* [History](#history)
-* [Requirements](#requirements)
-* [Install](#install)
-  * [With Go Modules (since Go 1\.11)](#with-go-modules-since-go-111)
-  * [Without Go Modules (before Go 1\.11)](#without-go-modules-before-go-111)
-* [Usage](#usage)
-* [Command\-line Options](#command-line-options)
-* [Example](#example)
-* [TLS](#tls)
+- [goben](#goben)
+- [Features](#features)
+- [History](#history)
+- [Requirements](#requirements)
+- [Usage](#usage)
+- [Command-line Options](#command-line-options)
+- [Example](#example)
+- [TLS](#tls)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
@@ -39,22 +33,6 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
 - You need a [system with the Go language](https://golang.org/dl/) in order to build the application. There is no special requirement for running it.
 - You can also download a binary release from https://github.com/udhos/goben/releases
-
-# Install
-
-## With Go Modules (since Go 1.11)
-
-    git clone https://github.com/udhos/goben ;# clone outside GOPATH
-    cd goben
-    go test ./goben
-    CGO_ENABLED=0 go install ./goben
-
-## Without Go Modules (before Go 1.11)
-
-    go get github.com/wcharczuk/go-chart
-    go get gopkg.in/yaml.v2
-    go get github.com/udhos/goben
-    go install github.com/udhos/goben/goben
 
 # Usage
 

@@ -46,6 +46,15 @@ func exportCsv(filename string, info *ExportInfo) error {
 		}
 	}
 
+	entry[Dir] = "latency"
+	for i, x := range info.Latency.XValues {
+		entry[Time] = x.String()
+		entry[Rate] = fmt.Sprintf("%v", info.Latency.YValues[i])
+		if err := w.Write(entry); err != nil {
+			return err
+		}
+	}
+
 	w.Flush()
 
 	return out.Close()

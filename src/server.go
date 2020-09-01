@@ -236,6 +236,8 @@ func handleConnection(conn net.Conn, c, connections int, isTLS bool, aggReader, 
 		return
 	}
 
+	latencyReader(conn, opt, c, connections, isTLS, aggReader)
+
 	go serverReader(conn, opt, c, connections, isTLS, aggReader)
 
 	if !opt.PassiveServer {
@@ -250,6 +252,48 @@ func handleConnection(conn net.Conn, c, connections int, isTLS bool, aggReader, 
 	tickerPeriod.Stop()
 
 	log.Printf("handleConnection: closing: %v", conn.RemoteAddr())
+}
+
+func latencyReader(conn net.Conn, opt options, c, connections int, isTLS bool, agg *aggregate) {
+
+	log.Printf("latencyReader: starting: %s %v", protoLabel(isTLS), conn.RemoteAddr())
+
+	//connIndex := fmt.Sprintf("%d/%d", c, connections)
+
+	//var recb bytes.Buffer
+
+	var sendTime uint64
+	var sendb bytes.Buffer
+	enc := gob.NewEncoder(&sendb)
+	dec := gob.NewDecoder(conn)
+
+	for {
+		e := dec.Decode(&sendTime)
+		if e != nil {
+			log.Printf("latencyReader: decode: %v", e)
+			break
+		}
+
+		if sendTime == 9696969 {
+			log.Printf("latencyReader: terminate")
+			break
+		}
+
+		//timeNow := uint64(time.Now().UnixNano())
+		//log.Printf("latencyReader %d, %d",sendTime, timeNow - sendTime)
+
+		enc.Encode(&sendTime)
+
+		_, errWrite := conn.Write(sendb.Bytes())
+		if errWrite != nil {
+			log.Printf("latencyReader: write: %v", errWrite)
+		} else {
+			//log.Printf("latencyReader: send %d", sendTime)
+		}
+		sendb.Reset()
+	}
+
+	log.Printf("latencyReader: exiting: %v", conn.RemoteAddr())
 }
 
 func serverReader(conn net.Conn, opt options, c, connections int, isTLS bool, agg *aggregate) {

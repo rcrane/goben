@@ -25,4 +25,11 @@ func plotascii(info *ExportInfo, remote string, index int) {
 		output := asciigraph.Plot(info.Output.YValues, asciigraph.Caption(caption), asciigraph.Height(height), asciigraph.Width(width))
 		fmt.Println(output)
 	}
+
+	if len(info.Latency.YValues) > 0 {
+		caption := fmt.Sprintf("Latency Nanosec: %s Connection %d", remote, index)
+		log.Printf("%s output:", remote)
+		output := asciigraph.Plot(info.Latency.YValues, asciigraph.Caption(caption), asciigraph.Height(height), asciigraph.Width(width))
+		fmt.Println(output)
+	}
 }
